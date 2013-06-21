@@ -25,7 +25,8 @@ class FAZScore
 
   def score(obs)
     if std == 0
-      (obs - @avg) * Float::INFINITY
+      offset = obs - @avg
+      offset == 0 ? 0 : offset * Float::INFINITY
     else
       (obs - @avg) / std
     end
