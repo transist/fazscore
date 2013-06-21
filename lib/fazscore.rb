@@ -2,7 +2,7 @@ class FAZScore
 
   attr_accessor :decay, :population, :sqr_avg, :avg
 
-  def initialize(decay,population)
+  def initialize(decay, population)
     @sqr_avg = @avg = 0
     @decay = decay
     population.each { |p| self.update(p) }
@@ -14,20 +14,20 @@ class FAZScore
       @avg = value
       @sqr_avg = value ** 2
     else
-     @avg = @avg * @decay + value * (1 - @decay)
-     @sqr_avg = @sqr_avg * @decay + (value ** 2) * (1 - @decay)
+      @avg = @avg * @decay + value * (1 - @decay)
+      @sqr_avg = @sqr_avg * @decay + (value ** 2) * (1 - @decay)
     end
   end
 
   def std
-    return Math.sqrt(@sqr_avg - @avg ** 2)
+    Math.sqrt(@sqr_avg - @avg ** 2)
   end
 
   def score(obs)
-    if self.std() == 0
-      return 0
+    if std == 0
+      (obs - @avg) * Float::INFINITY
     else
-      return (obs - self.avg) / self.std()
+      (obs - @avg) / std
     end
   end
 end
